@@ -1,2 +1,2 @@
-# Pr-ctica-ABP
+# Práctica-ABP
 Práctica ABP

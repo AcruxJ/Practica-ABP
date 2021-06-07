@@ -1,0 +1,77 @@
+# Name of the stack that will be created in AWS CloudFront
+service: ABP
+
+provider:
+  name: aws
+  role: arn:aws:iam::129291499831:role/Admin
+  runtime: python3.8
+  memorySize: 128
+  lambdaHashingVersion: 20201221
+
+
+functions:
+  rekog:
+    handler: functions/rekog.lambda_handler
+    events:
+      - s3:
+          bucket: accessbucket.grupo2pygitic
+          event: s3:ObjectCreated:*
+          
+  getUsers:
+    handler: functions/getUsers.lambda_handler
+    events:
+      - http: GET getUsers
+          
+  registerUser:
+    handler: functions/addUser.lambda_handler
+    events:
+      - http: POST registerUser
+          
+  getLogs:
+    handler: functions/getLogs.lambda_handler
+    events:
+      - http: GET getLogs
+
+
+# Create extra resources
+resources:
+  Resources:
+    # DynamoDB table
+    LogTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: LogTable
+        AttributeDefinitions:
+          - AttributeName: logID
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: logID
+            KeyType: HASH
+          - AttributeName: email
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+    
+    UserTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: UserTable
+        AttributeDefinitions:
+          - AttributeName: photoID
+            AttributeType: S
+          - AttributeName: email
+            AttributeType: S
+        KeySchema:
+          - AttributeName: photoID
+            KeyType: HASH
+          - AttributeName: email
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+        
+#    ImagesBucket:
+#      Type: AWS::S3::Bucket
+#      Properties:
+#        BucketName: imagesetbucket.grupo2pygitic
+    
+    

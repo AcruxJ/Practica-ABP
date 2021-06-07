@@ -1,0 +1,938 @@
+{
+  "service": {
+    "service": "ABP",
+    "serviceObject": {
+      "name": "ABP"
+    },
+    "provider": {
+      "name": "aws",
+      "role": "arn:aws:iam::129291499831:role/Admin",
+      "runtime": "python3.8",
+      "memorySize": 128,
+      "lambdaHashingVersion": "20201221",
+      "stage": "dev",
+      "variableSyntax": "\\${([^{}:]+?(?:\\(|:)(?:[^:{}][^{}]*?)?)}",
+      "region": "us-east-1",
+      "versionFunctions": true,
+      "compiledCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Resource": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "Condition": {
+                      "Bool": {
+                        "aws:SecureTransport": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "RekogLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/ABP-dev-rekog"
+            }
+          },
+          "GetUsersLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/ABP-dev-getUsers"
+            }
+          },
+          "RegisterUserLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/ABP-dev-registerUser"
+            }
+          },
+          "GetLogsLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/ABP-dev-getLogs"
+            }
+          },
+          "RekogLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+              },
+              "Handler": "functions/rekog.lambda_handler",
+              "Runtime": "python3.8",
+              "FunctionName": "ABP-dev-rekog",
+              "MemorySize": 128,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::129291499831:role/Admin"
+            },
+            "DependsOn": [
+              "RekogLogGroup"
+            ]
+          },
+          "GetUsersLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+              },
+              "Handler": "functions/getUsers.lambda_handler",
+              "Runtime": "python3.8",
+              "FunctionName": "ABP-dev-getUsers",
+              "MemorySize": 128,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::129291499831:role/Admin"
+            },
+            "DependsOn": [
+              "GetUsersLogGroup"
+            ]
+          },
+          "RegisterUserLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+              },
+              "Handler": "functions/addUser.lambda_handler",
+              "Runtime": "python3.8",
+              "FunctionName": "ABP-dev-registerUser",
+              "MemorySize": 128,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::129291499831:role/Admin"
+            },
+            "DependsOn": [
+              "RegisterUserLogGroup"
+            ]
+          },
+          "GetLogsLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+              },
+              "Handler": "functions/getLogs.lambda_handler",
+              "Runtime": "python3.8",
+              "FunctionName": "ABP-dev-getLogs",
+              "MemorySize": 128,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::129291499831:role/Admin"
+            },
+            "DependsOn": [
+              "GetLogsLogGroup"
+            ]
+          },
+          "RekogLambdaVersionOtAMHG7Hztbo0pUwIykJ8L8WkCocI9IR9OtetVXryMY": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "RekogLambdaFunction"
+              },
+              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+            }
+          },
+          "GetUsersLambdaVersionH7n9tXlXIKFtaGcP4wddbZfeauZC9fyo3ZuBBjp2g": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetUsersLambdaFunction"
+              },
+              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+            }
+          },
+          "RegisterUserLambdaVersionR4Cvx066JMO9mogLYrlkNNnId7yUeHAcNak8xQPy5k": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "RegisterUserLambdaFunction"
+              },
+              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+            }
+          },
+          "GetLogsLambdaVersionvmzqAaI6y5LJRLXcN8D0C0FtIzawWL48H9PUxQC4": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "GetLogsLambdaFunction"
+              },
+              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+            }
+          },
+          "S3BucketAccessbucketgrupo2pygitic": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketName": "accessbucket.grupo2pygitic",
+              "NotificationConfiguration": {
+                "LambdaConfigurations": [
+                  {
+                    "Event": "s3:ObjectCreated:*",
+                    "Function": {
+                      "Fn::GetAtt": [
+                        "RekogLambdaFunction",
+                        "Arn"
+                      ]
+                    }
+                  }
+                ]
+              }
+            },
+            "DependsOn": [
+              "RekogLambdaPermissionAccessbucketgrupo2pygiticS3"
+            ]
+          },
+          "RekogLambdaPermissionAccessbucketgrupo2pygiticS3": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "RekogLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "s3.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":s3:::accessbucket.grupo2pygitic"
+                  ]
+                ]
+              },
+              "SourceAccount": {
+                "Ref": "AWS::AccountId"
+              }
+            }
+          },
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
+            "Properties": {
+              "Name": "dev-ABP",
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
+            }
+          },
+          "ApiGatewayResourceGetusers": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "getUsers",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceRegisteruser": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "registerUser",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceGetlogs": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "getLogs",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodGetusersGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceGetusers"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetUsersLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayMethodRegisteruserPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceRegisteruser"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "RegisterUserLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayMethodGetlogsGet": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "GET",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceGetlogs"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "GetLogsLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1623073311368": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodGetusersGet",
+              "ApiGatewayMethodRegisteruserPost",
+              "ApiGatewayMethodGetlogsGet"
+            ]
+          },
+          "GetUsersLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetUsersLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "RegisterUserLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "RegisterUserLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "GetLogsLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "GetLogsLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "LogTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "LogTable",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "logID",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "email",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "logID",
+                  "KeyType": "HASH"
+                },
+                {
+                  "AttributeName": "email",
+                  "KeyType": "RANGE"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          },
+          "UserTable": {
+            "Type": "AWS::DynamoDB::Table",
+            "Properties": {
+              "TableName": "UserTable",
+              "AttributeDefinitions": [
+                {
+                  "AttributeName": "photoID",
+                  "AttributeType": "S"
+                },
+                {
+                  "AttributeName": "email",
+                  "AttributeType": "S"
+                }
+              ],
+              "KeySchema": [
+                {
+                  "AttributeName": "photoID",
+                  "KeyType": "HASH"
+                },
+                {
+                  "AttributeName": "email",
+                  "KeyType": "RANGE"
+                }
+              ],
+              "BillingMode": "PAY_PER_REQUEST"
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          },
+          "RekogLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "RekogLambdaVersionOtAMHG7Hztbo0pUwIykJ8L8WkCocI9IR9OtetVXryMY"
+            }
+          },
+          "GetUsersLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetUsersLambdaVersionH7n9tXlXIKFtaGcP4wddbZfeauZC9fyo3ZuBBjp2g"
+            }
+          },
+          "RegisterUserLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "RegisterUserLambdaVersionR4Cvx066JMO9mogLYrlkNNnId7yUeHAcNak8xQPy5k"
+            }
+          },
+          "GetLogsLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "GetLogsLambdaVersionvmzqAaI6y5LJRLXcN8D0C0FtIzawWL48H9PUxQC4"
+            }
+          },
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
+            "Value": {
+              "Fn::Join": [
+                "",
+                [
+                  "https://",
+                  {
+                    "Ref": "ApiGatewayRestApi"
+                  },
+                  ".execute-api.",
+                  {
+                    "Ref": "AWS::Region"
+                  },
+                  ".",
+                  {
+                    "Ref": "AWS::URLSuffix"
+                  },
+                  "/dev"
+                ]
+              ]
+            }
+          }
+        }
+      },
+      "coreCloudFormationTemplate": {
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Description": "The AWS CloudFormation template for this Serverless application",
+        "Resources": {
+          "ServerlessDeploymentBucket": {
+            "Type": "AWS::S3::Bucket",
+            "Properties": {
+              "BucketEncryption": {
+                "ServerSideEncryptionConfiguration": [
+                  {
+                    "ServerSideEncryptionByDefault": {
+                      "SSEAlgorithm": "AES256"
+                    }
+                  }
+                ]
+              }
+            }
+          },
+          "ServerlessDeploymentBucketPolicy": {
+            "Type": "AWS::S3::BucketPolicy",
+            "Properties": {
+              "Bucket": {
+                "Ref": "ServerlessDeploymentBucket"
+              },
+              "PolicyDocument": {
+                "Statement": [
+                  {
+                    "Action": "s3:*",
+                    "Effect": "Deny",
+                    "Principal": "*",
+                    "Resource": [
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            },
+                            "/*"
+                          ]
+                        ]
+                      },
+                      {
+                        "Fn::Join": [
+                          "",
+                          [
+                            "arn:",
+                            {
+                              "Ref": "AWS::Partition"
+                            },
+                            ":s3:::",
+                            {
+                              "Ref": "ServerlessDeploymentBucket"
+                            }
+                          ]
+                        ]
+                      }
+                    ],
+                    "Condition": {
+                      "Bool": {
+                        "aws:SecureTransport": false
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "Outputs": {
+          "ServerlessDeploymentBucketName": {
+            "Value": {
+              "Ref": "ServerlessDeploymentBucket"
+            }
+          }
+        }
+      },
+      "vpc": {}
+    },
+    "pluginsData": {},
+    "functions": {
+      "rekog": {
+        "handler": "functions/rekog.lambda_handler",
+        "events": [
+          {
+            "s3": {
+              "bucket": "accessbucket.grupo2pygitic",
+              "event": "s3:ObjectCreated:*"
+            }
+          }
+        ],
+        "name": "ABP-dev-rekog",
+        "package": {},
+        "memory": 128,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "RekogLambdaVersionOtAMHG7Hztbo0pUwIykJ8L8WkCocI9IR9OtetVXryMY"
+      },
+      "getUsers": {
+        "handler": "functions/getUsers.lambda_handler",
+        "events": [
+          {
+            "http": "GET getUsers"
+          }
+        ],
+        "name": "ABP-dev-getUsers",
+        "package": {},
+        "memory": 128,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "GetUsersLambdaVersionH7n9tXlXIKFtaGcP4wddbZfeauZC9fyo3ZuBBjp2g"
+      },
+      "registerUser": {
+        "handler": "functions/addUser.lambda_handler",
+        "events": [
+          {
+            "http": "POST registerUser"
+          }
+        ],
+        "name": "ABP-dev-registerUser",
+        "package": {},
+        "memory": 128,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "RegisterUserLambdaVersionR4Cvx066JMO9mogLYrlkNNnId7yUeHAcNak8xQPy5k"
+      },
+      "getLogs": {
+        "handler": "functions/getLogs.lambda_handler",
+        "events": [
+          {
+            "http": "GET getLogs"
+          }
+        ],
+        "name": "ABP-dev-getLogs",
+        "package": {},
+        "memory": 128,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "GetLogsLambdaVersionvmzqAaI6y5LJRLXcN8D0C0FtIzawWL48H9PUxQC4"
+      }
+    },
+    "resources": {
+      "Resources": {
+        "LogTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "LogTable",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "logID",
+                "AttributeType": "S"
+              },
+              {
+                "AttributeName": "email",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "logID",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "email",
+                "KeyType": "RANGE"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        },
+        "UserTable": {
+          "Type": "AWS::DynamoDB::Table",
+          "Properties": {
+            "TableName": "UserTable",
+            "AttributeDefinitions": [
+              {
+                "AttributeName": "photoID",
+                "AttributeType": "S"
+              },
+              {
+                "AttributeName": "email",
+                "AttributeType": "S"
+              }
+            ],
+            "KeySchema": [
+              {
+                "AttributeName": "photoID",
+                "KeyType": "HASH"
+              },
+              {
+                "AttributeName": "email",
+                "KeyType": "RANGE"
+              }
+            ],
+            "BillingMode": "PAY_PER_REQUEST"
+          }
+        }
+      },
+      "Outputs": {}
+    },
+    "configValidationMode": "warn",
+    "serviceFilename": "serverless.yml",
+    "layers": {},
+    "initialServerlessConfig": {
+      "service": {
+        "$ref": "$[\"service\"][\"serviceObject\"]"
+      },
+      "provider": {
+        "$ref": "$[\"service\"][\"provider\"]"
+      },
+      "functions": {
+        "$ref": "$[\"service\"][\"functions\"]"
+      },
+      "resources": {
+        "$ref": "$[\"service\"][\"resources\"]"
+      }
+    },
+    "isDashboardMonitoringPreconfigured": false,
+    "artifact": "C:\\Users\\jesus\\Desktop\\ABP\\.serverless\\ABP.zip"
+  },
+  "package": {
+    "artifactDirectoryName": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z",
+    "artifact": "ABP.zip"
+  }
+}

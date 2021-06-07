@@ -22,15 +22,20 @@ functions:
     events:
       - http: GET getUsers
           
-  registerUser:
+  addUser:
     handler: functions/addUser.lambda_handler
     events:
-      - http: POST registerUser
+      - http: POST addUser
           
   getLogs:
     handler: functions/getLogs.lambda_handler
     events:
       - http: GET getLogs
+      
+  addLog:
+    handler: functions/addLog.lambda_handler
+    events:
+      - http: POST addLog
 
 
 # Create extra resources

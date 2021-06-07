@@ -99,16 +99,22 @@
               "LogGroupName": "/aws/lambda/ABP-dev-getUsers"
             }
           },
-          "RegisterUserLogGroup": {
+          "AddUserLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
-              "LogGroupName": "/aws/lambda/ABP-dev-registerUser"
+              "LogGroupName": "/aws/lambda/ABP-dev-addUser"
             }
           },
           "GetLogsLogGroup": {
             "Type": "AWS::Logs::LogGroup",
             "Properties": {
               "LogGroupName": "/aws/lambda/ABP-dev-getLogs"
+            }
+          },
+          "AddLogLogGroup": {
+            "Type": "AWS::Logs::LogGroup",
+            "Properties": {
+              "LogGroupName": "/aws/lambda/ABP-dev-addLog"
             }
           },
           "RekogLambdaFunction": {
@@ -118,7 +124,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+                "S3Key": "serverless/ABP/dev/1623086995950-2021-06-07T17:29:55.950Z/ABP.zip"
               },
               "Handler": "functions/rekog.lambda_handler",
               "Runtime": "python3.8",
@@ -138,7 +144,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+                "S3Key": "serverless/ABP/dev/1623086995950-2021-06-07T17:29:55.950Z/ABP.zip"
               },
               "Handler": "functions/getUsers.lambda_handler",
               "Runtime": "python3.8",
@@ -151,24 +157,24 @@
               "GetUsersLogGroup"
             ]
           },
-          "RegisterUserLambdaFunction": {
+          "AddUserLambdaFunction": {
             "Type": "AWS::Lambda::Function",
             "Properties": {
               "Code": {
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+                "S3Key": "serverless/ABP/dev/1623086995950-2021-06-07T17:29:55.950Z/ABP.zip"
               },
               "Handler": "functions/addUser.lambda_handler",
               "Runtime": "python3.8",
-              "FunctionName": "ABP-dev-registerUser",
+              "FunctionName": "ABP-dev-addUser",
               "MemorySize": 128,
               "Timeout": 6,
               "Role": "arn:aws:iam::129291499831:role/Admin"
             },
             "DependsOn": [
-              "RegisterUserLogGroup"
+              "AddUserLogGroup"
             ]
           },
           "GetLogsLambdaFunction": {
@@ -178,7 +184,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z/ABP.zip"
+                "S3Key": "serverless/ABP/dev/1623086995950-2021-06-07T17:29:55.950Z/ABP.zip"
               },
               "Handler": "functions/getLogs.lambda_handler",
               "Runtime": "python3.8",
@@ -191,44 +197,74 @@
               "GetLogsLogGroup"
             ]
           },
-          "RekogLambdaVersionOtAMHG7Hztbo0pUwIykJ8L8WkCocI9IR9OtetVXryMY": {
+          "AddLogLambdaFunction": {
+            "Type": "AWS::Lambda::Function",
+            "Properties": {
+              "Code": {
+                "S3Bucket": {
+                  "Ref": "ServerlessDeploymentBucket"
+                },
+                "S3Key": "serverless/ABP/dev/1623086995950-2021-06-07T17:29:55.950Z/ABP.zip"
+              },
+              "Handler": "functions/addLog.lambda_handler",
+              "Runtime": "python3.8",
+              "FunctionName": "ABP-dev-addLog",
+              "MemorySize": 128,
+              "Timeout": 6,
+              "Role": "arn:aws:iam::129291499831:role/Admin"
+            },
+            "DependsOn": [
+              "AddLogLogGroup"
+            ]
+          },
+          "RekogLambdaVersiontiGI8otISoT7RykLj9q3oBt0o0vTZlz5O8chpHMOzEk": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "RekogLambdaFunction"
               },
-              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+              "CodeSha256": "s0tDHNkYbjEnZr9wDx27aA1q1rezIfVZAhQQkA5ebpQ="
             }
           },
-          "GetUsersLambdaVersionH7n9tXlXIKFtaGcP4wddbZfeauZC9fyo3ZuBBjp2g": {
+          "GetUsersLambdaVersionSGYhKP1txC5gLYtA36M1wjILvJELmK2WkPsXBhRQBbM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetUsersLambdaFunction"
               },
-              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+              "CodeSha256": "s0tDHNkYbjEnZr9wDx27aA1q1rezIfVZAhQQkA5ebpQ="
             }
           },
-          "RegisterUserLambdaVersionR4Cvx066JMO9mogLYrlkNNnId7yUeHAcNak8xQPy5k": {
+          "AddUserLambdaVersionSUzmm7IrX8W2zsvrDdgDNqpvYIk4E3H9x7yKi2lH0E": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
-                "Ref": "RegisterUserLambdaFunction"
+                "Ref": "AddUserLambdaFunction"
               },
-              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+              "CodeSha256": "s0tDHNkYbjEnZr9wDx27aA1q1rezIfVZAhQQkA5ebpQ="
             }
           },
-          "GetLogsLambdaVersionvmzqAaI6y5LJRLXcN8D0C0FtIzawWL48H9PUxQC4": {
+          "GetLogsLambdaVersion3Fr7L7TpsFV5rip34KQ7bHrGc14bBR4xAj1KiuRM": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "GetLogsLambdaFunction"
               },
-              "CodeSha256": "HbDZWR62RGjKHnO9O74ZcpU2x+aEIbwoF4B1JnwZeMA="
+              "CodeSha256": "s0tDHNkYbjEnZr9wDx27aA1q1rezIfVZAhQQkA5ebpQ="
+            }
+          },
+          "AddLogLambdaVersiontPG8xvsrWx6sqAmEEdUR72OYtkwJSAeQgy0rKytz4U": {
+            "Type": "AWS::Lambda::Version",
+            "DeletionPolicy": "Retain",
+            "Properties": {
+              "FunctionName": {
+                "Ref": "AddLogLambdaFunction"
+              },
+              "CodeSha256": "s0tDHNkYbjEnZr9wDx27aA1q1rezIfVZAhQQkA5ebpQ="
             }
           },
           "S3BucketAccessbucketgrupo2pygitic": {
@@ -308,7 +344,7 @@
               }
             }
           },
-          "ApiGatewayResourceRegisteruser": {
+          "ApiGatewayResourceAdduser": {
             "Type": "AWS::ApiGateway::Resource",
             "Properties": {
               "ParentId": {
@@ -317,7 +353,7 @@
                   "RootResourceId"
                 ]
               },
-              "PathPart": "registerUser",
+              "PathPart": "addUser",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -333,6 +369,21 @@
                 ]
               },
               "PathPart": "getLogs",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayResourceAddlog": {
+            "Type": "AWS::ApiGateway::Resource",
+            "Properties": {
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
+              },
+              "PathPart": "addLog",
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
               }
@@ -381,13 +432,13 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayMethodRegisteruserPost": {
+          "ApiGatewayMethodAdduserPost": {
             "Type": "AWS::ApiGateway::Method",
             "Properties": {
               "HttpMethod": "POST",
               "RequestParameters": {},
               "ResourceId": {
-                "Ref": "ApiGatewayResourceRegisteruser"
+                "Ref": "ApiGatewayResourceAdduser"
               },
               "RestApiId": {
                 "Ref": "ApiGatewayRestApi"
@@ -412,7 +463,7 @@
                       ":lambda:path/2015-03-31/functions/",
                       {
                         "Fn::GetAtt": [
-                          "RegisterUserLambdaFunction",
+                          "AddUserLambdaFunction",
                           "Arn"
                         ]
                       },
@@ -467,7 +518,50 @@
               "MethodResponses": []
             }
           },
-          "ApiGatewayDeployment1623073311368": {
+          "ApiGatewayMethodAddlogPost": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "POST",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceAddlog"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": false,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AddLogLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            }
+          },
+          "ApiGatewayDeployment1623086994190": {
             "Type": "AWS::ApiGateway::Deployment",
             "Properties": {
               "RestApiId": {
@@ -477,8 +571,9 @@
             },
             "DependsOn": [
               "ApiGatewayMethodGetusersGet",
-              "ApiGatewayMethodRegisteruserPost",
-              "ApiGatewayMethodGetlogsGet"
+              "ApiGatewayMethodAdduserPost",
+              "ApiGatewayMethodGetlogsGet",
+              "ApiGatewayMethodAddlogPost"
             ]
           },
           "GetUsersLambdaPermissionApiGateway": {
@@ -518,12 +613,12 @@
               }
             }
           },
-          "RegisterUserLambdaPermissionApiGateway": {
+          "AddUserLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
                 "Fn::GetAtt": [
-                  "RegisterUserLambdaFunction",
+                  "AddUserLambdaFunction",
                   "Arn"
                 ]
               },
@@ -561,6 +656,43 @@
               "FunctionName": {
                 "Fn::GetAtt": [
                   "GetLogsLambdaFunction",
+                  "Arn"
+                ]
+              },
+              "Action": "lambda:InvokeFunction",
+              "Principal": "apigateway.amazonaws.com",
+              "SourceArn": {
+                "Fn::Join": [
+                  "",
+                  [
+                    "arn:",
+                    {
+                      "Ref": "AWS::Partition"
+                    },
+                    ":execute-api:",
+                    {
+                      "Ref": "AWS::Region"
+                    },
+                    ":",
+                    {
+                      "Ref": "AWS::AccountId"
+                    },
+                    ":",
+                    {
+                      "Ref": "ApiGatewayRestApi"
+                    },
+                    "/*/*"
+                  ]
+                ]
+              }
+            }
+          },
+          "AddLogLambdaPermissionApiGateway": {
+            "Type": "AWS::Lambda::Permission",
+            "Properties": {
+              "FunctionName": {
+                "Fn::GetAtt": [
+                  "AddLogLambdaFunction",
                   "Arn"
                 ]
               },
@@ -656,25 +788,31 @@
           "RekogLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "RekogLambdaVersionOtAMHG7Hztbo0pUwIykJ8L8WkCocI9IR9OtetVXryMY"
+              "Ref": "RekogLambdaVersiontiGI8otISoT7RykLj9q3oBt0o0vTZlz5O8chpHMOzEk"
             }
           },
           "GetUsersLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetUsersLambdaVersionH7n9tXlXIKFtaGcP4wddbZfeauZC9fyo3ZuBBjp2g"
+              "Ref": "GetUsersLambdaVersionSGYhKP1txC5gLYtA36M1wjILvJELmK2WkPsXBhRQBbM"
             }
           },
-          "RegisterUserLambdaFunctionQualifiedArn": {
+          "AddUserLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "RegisterUserLambdaVersionR4Cvx066JMO9mogLYrlkNNnId7yUeHAcNak8xQPy5k"
+              "Ref": "AddUserLambdaVersionSUzmm7IrX8W2zsvrDdgDNqpvYIk4E3H9x7yKi2lH0E"
             }
           },
           "GetLogsLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "GetLogsLambdaVersionvmzqAaI6y5LJRLXcN8D0C0FtIzawWL48H9PUxQC4"
+              "Ref": "GetLogsLambdaVersion3Fr7L7TpsFV5rip34KQ7bHrGc14bBR4xAj1KiuRM"
+            }
+          },
+          "AddLogLambdaFunctionQualifiedArn": {
+            "Description": "Current Lambda function version",
+            "Value": {
+              "Ref": "AddLogLambdaVersiontPG8xvsrWx6sqAmEEdUR72OYtkwJSAeQgy0rKytz4U"
             }
           },
           "ServiceEndpoint": {
@@ -804,7 +942,7 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "RekogLambdaVersionOtAMHG7Hztbo0pUwIykJ8L8WkCocI9IR9OtetVXryMY"
+        "versionLogicalId": "RekogLambdaVersiontiGI8otISoT7RykLj9q3oBt0o0vTZlz5O8chpHMOzEk"
       },
       "getUsers": {
         "handler": "functions/getUsers.lambda_handler",
@@ -819,22 +957,22 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "GetUsersLambdaVersionH7n9tXlXIKFtaGcP4wddbZfeauZC9fyo3ZuBBjp2g"
+        "versionLogicalId": "GetUsersLambdaVersionSGYhKP1txC5gLYtA36M1wjILvJELmK2WkPsXBhRQBbM"
       },
-      "registerUser": {
+      "addUser": {
         "handler": "functions/addUser.lambda_handler",
         "events": [
           {
-            "http": "POST registerUser"
+            "http": "POST addUser"
           }
         ],
-        "name": "ABP-dev-registerUser",
+        "name": "ABP-dev-addUser",
         "package": {},
         "memory": 128,
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "RegisterUserLambdaVersionR4Cvx066JMO9mogLYrlkNNnId7yUeHAcNak8xQPy5k"
+        "versionLogicalId": "AddUserLambdaVersionSUzmm7IrX8W2zsvrDdgDNqpvYIk4E3H9x7yKi2lH0E"
       },
       "getLogs": {
         "handler": "functions/getLogs.lambda_handler",
@@ -849,7 +987,22 @@
         "timeout": 6,
         "runtime": "python3.8",
         "vpc": {},
-        "versionLogicalId": "GetLogsLambdaVersionvmzqAaI6y5LJRLXcN8D0C0FtIzawWL48H9PUxQC4"
+        "versionLogicalId": "GetLogsLambdaVersion3Fr7L7TpsFV5rip34KQ7bHrGc14bBR4xAj1KiuRM"
+      },
+      "addLog": {
+        "handler": "functions/addLog.lambda_handler",
+        "events": [
+          {
+            "http": "POST addLog"
+          }
+        ],
+        "name": "ABP-dev-addLog",
+        "package": {},
+        "memory": 128,
+        "timeout": 6,
+        "runtime": "python3.8",
+        "vpc": {},
+        "versionLogicalId": "AddLogLambdaVersiontPG8xvsrWx6sqAmEEdUR72OYtkwJSAeQgy0rKytz4U"
       }
     },
     "resources": {
@@ -932,7 +1085,7 @@
     "artifact": "C:\\Users\\jesus\\Desktop\\ABP\\.serverless\\ABP.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/ABP/dev/1623073313129-2021-06-07T13:41:53.129Z",
+    "artifactDirectoryName": "serverless/ABP/dev/1623086995950-2021-06-07T17:29:55.950Z",
     "artifact": "ABP.zip"
   }
 }

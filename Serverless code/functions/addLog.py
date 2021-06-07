@@ -11,10 +11,10 @@ def lambda_handler(event, context):
     body = json.loads(event["body"])
     
     item = {
+        "logID": str(uuid.uuid4()),
         "photoID": body["photoID"],
         "email": body["email"],
-        "created_at": str(datetime.now()),
-        "dirphoto": body["dirphoto"],
+        "date": str(datetime.now()),
     }
 
     table.put_item(Item=item)
